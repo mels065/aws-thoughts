@@ -1,7 +1,6 @@
 {
   "name": "aws-thought",
   "version": "1.0.0",
-  "description": "",
   "main": "server/server.js",
   "scripts": {
     "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
@@ -14,11 +13,21 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "aws-sdk": "^2.1028.0",
+    "aws-sdk": "^2.1036.0",
+    "express": "^4.17.1",
     "if-env": "^1.0.4",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
     "concurrently": "^5.1.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mels065/aws-thoughts.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mels065/aws-thoughts/issues"
+  },
+  "homepage": "https://github.com/mels065/aws-thoughts#readme",
+  "description": ""
 }

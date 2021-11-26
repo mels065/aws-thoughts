@@ -11,6 +11,18 @@ const Profile = props => {
     thought: '',
   }]);
 
+  useEffect(async () => {
+    try {
+      const res = await fetch(`/api/users/${userParam}`);
+      const data = await res.json();
+      console.log(data);
+      setThoughts([...(data.map(user => ({ ...user, username: userParam })))]);
+      setIsLoaded(true);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [userParam]);
+
   return (
     <div>
       <div className="flex-row mb-3">

@@ -1,11 +1,14 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 
-const ThoughtForm = () => {
+const ThoughtForm = ({ fetchThoughtData }) => {
   const [formState, setFormState] = useState({
     username: "",
     thought: "",
   });
   const [characterCount, setCharacterCount] = useState(0);
+
+  const history = useHistory();
 
   // update state based on form input changes
   const handleChange = (event) => {
@@ -19,9 +22,25 @@ const ThoughtForm = () => {
   const handleFormSubmit = (event) => {
     event.preventDefault();
 
+    const postData = async () => {
+      const res = await fetch('/api/users', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formState)
+      });
+      const data = await res.json();
+      console.log(data);
+    }
+
+    postData();
+
     // clear form value
     setFormState({ username: "", thought: "" });
     setCharacterCount(0);
+    fetchThoughtData()
   };
 
   return (

@@ -3,8 +3,7 @@ const router = express.Router();
 const AWS = require('aws-sdk');
 
 const awsConfig = {
-    region: 'us-west-1',
-    endpoint: 'http://localhost:8000'
+    region: 'us-west-1'
 };
 AWS.config.update(awsConfig);
 const dynamodb = new AWS.DynamoDB.DocumentClient();

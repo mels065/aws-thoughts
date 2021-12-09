@@ -45,23 +45,45 @@ const ThoughtForm = ({ fetchThoughtData }) => {
   };
 
   // submit form
-  const handleFormSubmit = (event) => {
+  const handleFormSubmit = async (event) => {
     event.preventDefault();
 
-    const postData = async () => {
+    const data = new FormData();
+    data.append('image', fileInput.current.files[0]);
+
+    const postImage = async () => {
+      try {
+        const res = await fetch('/api/image-upload', {
+          mode: 'cors',
+          method: 'POST',
+          body: data
+        });
+
+        if (!res.ok) throw new Error(res.statusText);
+        const postResponse = await res.json();
+        setFormState({ ...formState, image: postResponse.Location });
+
+        return postResponse.Location;
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const postData = async (imageLocation) => {
       const res = await fetch('/api/users', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(formState)
+        body: JSON.stringify({ ...formState, image: imageLocation })
       });
       const data = await res.json();
       console.log(data);
     }
 
-    postData();
+    const imageLocation = await postImage();
+    await postData(imageLocation);
 
     // clear form value
     setFormState({ username: "", thought: "" });
@@ -99,13 +121,6 @@ const ThoughtForm = ({ fetchThoughtData }) => {
             ref={fileInput}
             className="form-input p-2"
           />
-          <button
-            className="btn"
-            onClick={handleImageUpload}
-            type="submit"
-          >
-            Upload
-          </button>
         </label>
         <button className="btn col-12 " type="submit">
           Submit
